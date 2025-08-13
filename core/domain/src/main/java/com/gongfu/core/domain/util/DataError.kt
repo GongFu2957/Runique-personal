@@ -3,7 +3,7 @@ package com.gongfu.core.domain.util
 sealed interface DataError: Error {
 
     enum class Network: DataError {
-        REQUUEST_TIMEOUT,
+        REQUEST_TIMEOUT,
         UNAUTHORIZED,
         CONFLICT,
         TOO_MANY_REQUESTS,
