@@ -44,7 +44,9 @@ import com.gongfu.core.presentation.designsystem.components.RuniqueTextField
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun RegisterScreenRot(
+fun RegisterScreenRoot(
+    onSignInClick: () -> Unit,
+    onSuccesfulRegistration: () -> Unit,
     viewModel: RegisterViewModel  = koinViewModel()
 ) {
 

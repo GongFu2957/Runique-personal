@@ -52,6 +52,9 @@ dependencies {
     // Crypto
     implementation(libs.androidx.security.crypto.ktx)
 
+    // Koin
+    implementation(libs.bundles.koin)
+
 //    unresolved reference:
 //    api(libs.core)
 
