@@ -1,0 +1,25 @@
+package com.gongfu.auth.data
+
+import com.gongfu.auth.domain.AuthRepository
+import com.gongfu.core.data.networking.post
+import com.gongfu.core.domain.util.DataError
+import com.gongfu.core.domain.util.EmptyDataResult
+import io.ktor.client.HttpClient
+
+class AuthRepositoryImpl(
+    private val httpClient: HttpClient
+): AuthRepository {
+
+    override suspend fun register(
+        email: String,
+        password: String
+    ): EmptyDataResult<DataError.Network> {
+        return httpClient.post<RegisterRequest, Unit>(
+            route = "/register",
+            body = RegisterRequest(
+                email = email,
+                password = password
+            )
+        )
+    }
+}
