@@ -230,7 +230,9 @@ private fun RegisterScreenPreview() {
             state = RegisterState(
                 passwordValidationState = PasswordValidationState(
                     hasNumber = true,
-                )
+                ),
+                canRegister = true
+
             ),
             onAction = {}
         )
