@@ -69,18 +69,17 @@ class RegisterViewModel(
             state = state.copy(isRegistering = false)
 
             when (result) {
-                is Result.Error<*> -> {
-                    val errorResult = result as Result.Error
-                    if (errorResult.error == DataError.Network.CONFLICT) {
+                is Result.Error -> {
+                    if (result.error == DataError.Network.CONFLICT) {
                         eventChannel.send(RegisterEvent.Error(
                             UiText.StringResource(R.string.error_email_exists)
                             )
                         )
                     } else {
-                        eventChannel.send(RegisterEvent.Error(errorResult.error.asUiText()))
+                        eventChannel.send(RegisterEvent.Error(result.error.asUiText()))
                     }
                 }
-                is Result.Success<*> -> {
+                is Result.Success -> {
                     eventChannel.send(RegisterEvent.RegistrationSuccess)
                 }
             }
