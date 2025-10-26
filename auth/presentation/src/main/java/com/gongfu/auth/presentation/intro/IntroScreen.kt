@@ -106,7 +106,7 @@ private fun RuniqueLogoVertical(
         Text(
             text = stringResource(id = R.string.runique),
             fontSize = 24.sp,
-            fontWeight = FontWeight.Medium,
+            fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onBackground
         )
 
