@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -125,17 +126,17 @@ private fun RegisterScreen(
                     }
                 }
             }
-            Text(
-                modifier = Modifier.clickable {
-                    val annotatedText = annotatedString.getStringAnnotations(
+            ClickableText(
+                text = annotatedString,
+                onClick = { offset ->
+                    annotatedString.getStringAnnotations(
                         tag = "clickable_text",
-                        start = 0,
-                        end = annotatedString.length
+                        start = offset,
+                        end = offset
                     ).firstOrNull()?.let {
                         onAction(RegisterAction.OnLoginClick)
                     }
-                },
-                text = annotatedString
+                }
             )
             Spacer(modifier = Modifier.height(48.dp))
             RuniqueTextField(
