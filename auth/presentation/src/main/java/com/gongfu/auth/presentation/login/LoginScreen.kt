@@ -158,6 +158,7 @@ private fun LoginScreen(
                     }
                 }
             }
+
             Box(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
