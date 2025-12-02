@@ -21,4 +21,6 @@
     <string name="register">Register</string>
     <string name="registration_successful">Registration successful! You can log in now.</string>
     <string name="dont_have_an_account">Don\'t have an account?</string>
+    <string name="go_back">Go back</string>
+    <string name="open_menu">Open Menu</string>
 </resources>
