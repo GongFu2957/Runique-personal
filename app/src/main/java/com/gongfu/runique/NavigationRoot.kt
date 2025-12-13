@@ -10,13 +10,16 @@ import androidx.navigation.navigation
 import com.gongfu.auth.presentation.intro.IntroScreenRoot
 import com.gongfu.auth.presentation.login.LoginScreenRoot
 import com.gongfu.auth.presentation.register.RegisterScreenRoot
+import com.gongfu.run.presentation.run_overview.RunOverviewScreenRoot
 
 @Composable
 fun NavigationRoot(
     navController: NavHostController,
     isLoggedIn: Boolean
 ) {
-    NavHost(navController = navController, startDestination = if (isLoggedIn) "run" else "auth") {
+    NavHost(navController = navController,
+        startDestination = if (isLoggedIn) "run" else "auth"
+    ) {
         authGraph(navController)
         runGraph(navController)
     }
@@ -82,7 +85,7 @@ private fun NavGraphBuilder.runGraph(navController: NavHostController) {
         route = "run"
     ) {
         composable("run_overview") {
-            Text(text = "Run overview!")
+            RunOverviewScreenRoot()
         }
     }
 }

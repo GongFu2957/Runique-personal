@@ -4,6 +4,7 @@ import android.app.Application
 import com.gongfu.auth.data.di.authDataModule
 import com.gongfu.auth.presentation.di.authViewModelModule
 import com.gongfu.core.data.di.coreDataModule
+import com.gongfu.run.presentation.run_overview.di.runViewModelModule
 import com.gongfu.runique.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -25,7 +26,8 @@ class RuniqueApp: Application() {
                 authDataModule,
                 authViewModelModule,
                 appModule,
-                coreDataModule
+                coreDataModule,
+                runViewModelModule
             )
         }
     }
