@@ -1,6 +1,5 @@
 package com.gongfu.runique
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -10,6 +9,7 @@ import androidx.navigation.navigation
 import com.gongfu.auth.presentation.intro.IntroScreenRoot
 import com.gongfu.auth.presentation.login.LoginScreenRoot
 import com.gongfu.auth.presentation.register.RegisterScreenRoot
+import com.gongfu.run.presentation.active_run.ActiveRunScreenRoot
 import com.gongfu.run.presentation.run_overview.RunOverviewScreenRoot
 
 @Composable
@@ -17,7 +17,8 @@ fun NavigationRoot(
     navController: NavHostController,
     isLoggedIn: Boolean
 ) {
-    NavHost(navController = navController,
+    NavHost(
+        navController = navController,
         startDestination = if (isLoggedIn) "run" else "auth"
     ) {
         authGraph(navController)
@@ -53,7 +54,7 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
                 },
                 onSuccesfulRegistration = {
                     navController.navigate("login")
-                },
+                }
             )
         }
         composable("login") {
@@ -85,7 +86,14 @@ private fun NavGraphBuilder.runGraph(navController: NavHostController) {
         route = "run"
     ) {
         composable("run_overview") {
-            RunOverviewScreenRoot()
+            RunOverviewScreenRoot(
+                onStartRunClick = {
+                    navController.navigate("active_run")
+                }
+            )
+        }
+        composable("active_run") {
+            ActiveRunScreenRoot()
         }
     }
 }

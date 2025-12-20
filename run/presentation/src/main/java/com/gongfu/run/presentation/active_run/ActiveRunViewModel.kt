@@ -15,5 +15,7 @@ class ActiveRunViewModel: ViewModel() {
     private val eventChannel = Channel<ActiveRunEvent>()
     val events = eventChannel.receiveAsFlow()
 
-    fun onAction(action: ActiveRunAction) {}
+    fun onAction(action: ActiveRunAction) {
+
+    }
 }
