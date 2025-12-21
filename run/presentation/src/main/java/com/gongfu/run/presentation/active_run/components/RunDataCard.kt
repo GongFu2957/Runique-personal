@@ -57,14 +57,16 @@ fun RunDataCard(
             RunDataItem(
                 title = stringResource(R.string.distance),
                 value = (runData.distanceMeters / 1000.0).toFormattedKm(),
-                modifier = modifier.defaultMinSize(75.dp)
+                modifier = Modifier
+                    .defaultMinSize(75.dp)
             )
             RunDataItem(
                 title = stringResource(R.string.pace),
                 value = elapsedTime.toFormattedPace(
                     distanceKm = (runData.distanceMeters / 1000.0)
                 ),
-                modifier = modifier.defaultMinSize(75.dp)
+                modifier = Modifier
+                    .defaultMinSize(75.dp)
             )
 
         }
@@ -101,7 +103,10 @@ fun RunDataCardPreview() {
     RuniquepersonalTheme {
         RunDataCard(
             elapsedTime = 10.minutes,
-            runData = RunData()
+            runData = RunData(
+                distanceMeters = 3425,
+                pace = 0.minutes
+            )
         )
     }
 }
