@@ -2,6 +2,11 @@
 
 package com.gongfu.run.presentation.active_run
 
+import android.Manifest
+import android.os.Build
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,17 +16,22 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gongfu.core.presentation.designsystem.RuniquepersonalTheme
 import com.gongfu.core.presentation.designsystem.StartIcon
 import com.gongfu.core.presentation.designsystem.StopIcon
+import com.gongfu.core.presentation.designsystem.components.RuniqueDialog
 import com.gongfu.core.presentation.designsystem.components.RuniqueFloatingActionButton
+import com.gongfu.core.presentation.designsystem.components.RuniqueOutlinedActionButton
 import com.gongfu.core.presentation.designsystem.components.RuniqueScaffold
 import com.gongfu.core.presentation.designsystem.components.RuniqueToolbar
 import com.gongfu.run.presentation.R
 import com.gongfu.run.presentation.active_run.components.RunDataCard
+import com.gongfu.run.presentation.util.shouldShowLocationPermissionRationale
+import com.gongfu.run.presentation.util.shouldShowNotificationPermissionRationale
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -40,6 +50,35 @@ private fun ActiveRunScreen(
     state: ActiveRunState,
     onAction: (ActiveRunAction) -> Unit
 ) {
+    val context = LocalContext.current
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { perms ->
+        val hasCourseLocationPermission = perms[Manifest.permission.ACCESS_COARSE_LOCATION] == true
+        val hasFineLocationPermission = perms[Manifest.permission.ACCESS_FINE_LOCATION] == true
+        val hasNotificationPermission = if (Build.VERSION.SDK_INT >= 33) {
+            perms[Manifest.permission.POST_NOTIFICATIONS] == true
+        } else true
+
+        val activity = context as ComponentActivity
+        val showLocationRationale = activity.shouldShowLocationPermissionRationale()
+        val showNotificationRationale = activity.shouldShowNotificationPermissionRationale()
+
+        onAction(
+           ActiveRunAction.SubmitLocationPermissionInfo(
+               acceptedLocationPermission = hasCourseLocationPermission && hasFineLocationPermission,
+               showLocationRationale = showLocationRationale
+           )
+       )
+        onAction(
+            ActiveRunAction.SubmitNotificationPermissionInfo(
+                acceptedNotificationPermission = hasNotificationPermission,
+                showNotificationPermissionRationale = showNotificationRationale
+            )
+        )
+
+
+    }
     RuniqueScaffold(
         withGradient = false,
         topAppBar = {
@@ -84,6 +123,33 @@ private fun ActiveRunScreen(
                     .fillMaxWidth()
             )
         }
+    }
+
+    if (state.showLocationRationale || state.showNotificationRationale) {
+        RuniqueDialog(
+            title = stringResource(R.string.permission_required),
+            onDismiss = { /* Normal dismissing not allowed for permissions */ },
+            description = when {
+                state.showLocationRationale && state.showNotificationRationale -> {
+                    stringResource(R.string.location_notification_rationale)
+                }
+                state.showLocationRationale -> {
+                    stringResource(R.string.location_rationale)
+                }
+                else -> {
+                    stringResource(R.string.notification_rationale)
+                }
+            },
+            primaryButton = {
+                RuniqueOutlinedActionButton(
+                    text = stringResource(R.string.okay),
+                    isLoading = false,
+                    onClick = {
+                        onAction(ActiveRunAction.DismissRationaleDialog)
+                    }
+                )
+            }
+        )
     }
 }
 
