@@ -11,6 +11,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose)
+    implementation(libs.bundles.koin)
     debugImplementation(libs.bundles.compose.debug)
 
     implementation(libs.kotlinx.coroutines.core)
