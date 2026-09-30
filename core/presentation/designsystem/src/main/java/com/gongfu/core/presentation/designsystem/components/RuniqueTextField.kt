@@ -175,6 +175,7 @@ private fun RuniqueTextFieldPreview() {
             endIcon = CheckIcon,
             hint = "example@test.com",
             title = "Email",
+            error = null,
             additionalInfo = "Must be a valid email.",
             modifier = Modifier
                 .fillMaxWidth()
